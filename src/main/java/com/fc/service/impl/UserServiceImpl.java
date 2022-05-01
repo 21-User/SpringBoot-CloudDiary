@@ -115,15 +115,4 @@ public class UserServiceImpl implements UserService {
         return infoVo;
     }
 
-    @Override
-    public Integer checkNick(String nick, Integer id) {
-        TbUser user = userDao.findNickById(nick, id);
-
-        if (user != null) {
-            return 0;
-        }
-
-        return 1;
-    }
-
 }

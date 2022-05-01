@@ -124,13 +124,6 @@ public class UserController {
         return mv;
     }
 
-    @RequestMapping("checkNick")
-    public String checkNick(String nick, HttpSession session) {
-        TbUser user = (TbUser)session.getAttribute("user");
 
-        Integer code = userService.checkNick(nick, user.getId());
-
-        return code + "";
-    }
 
 }

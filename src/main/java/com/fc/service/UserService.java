@@ -9,6 +9,5 @@ public interface UserService {
 
     ResultInfoVo update(MultipartFile img, String nick, String mood, TbUser user);
 
-    Integer checkNick(String nick, Integer id);
 
 }
