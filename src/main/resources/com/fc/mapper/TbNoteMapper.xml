@@ -74,7 +74,7 @@
     id, title, type_id, pub_time, lon, lat
   </sql>
   <sql id="Blob_Column_List">
-    content
+    `content`
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="com.fc.entity.TbNoteExample" resultMap="ResultMapWithBLOBs">
     select
@@ -126,7 +126,7 @@
   </delete>
   <insert id="insert" parameterType="com.fc.entity.TbNote">
     insert into tb_note (id, title, type_id, 
-      pub_time, lon, lat, content
+      pub_time, lon, lat, `content`
       )
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
       #{pubTime,jdbcType=TIMESTAMP}, #{lon,jdbcType=REAL}, #{lat,jdbcType=REAL}, #{content,jdbcType=LONGVARCHAR}
@@ -154,7 +154,7 @@
         lat,
       </if>
       <if test="content != null">
-        content,
+        `content`,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -224,7 +224,7 @@
       pub_time = #{record.pubTime,jdbcType=TIMESTAMP},
       lon = #{record.lon,jdbcType=REAL},
       lat = #{record.lat,jdbcType=REAL},
-      content = #{record.content,jdbcType=LONGVARCHAR}
+      `content` = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -260,7 +260,7 @@
         lat = #{lat,jdbcType=REAL},
       </if>
       <if test="content != null">
-        content = #{content,jdbcType=LONGVARCHAR},
+        `content` = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -272,7 +272,7 @@
       pub_time = #{pubTime,jdbcType=TIMESTAMP},
       lon = #{lon,jdbcType=REAL},
       lat = #{lat,jdbcType=REAL},
-      content = #{content,jdbcType=LONGVARCHAR}
+      `content` = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fc.entity.TbNote">
@@ -285,11 +285,10 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="findByIdPage" resultType="com.fc.entity.TbNote">
-    select tb_note.*
-    from tb_user tu
-    join tb_note_type tnt on tu.id = tnt.user_id
+    select tn.*
+    from tb_note_type tnt
     join tb_note tn on tnt.id = tn.type_id
-    where tu.id = #{userId}
+    where tnt.user_id = #{userId}
     <if test="title != null">
       and tn.title = #{title}
     </if>

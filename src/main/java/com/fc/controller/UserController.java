@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("login")
+    @RequestMapping("login")
     public ModelAndView login(TbUser user,
                               Integer remember,
                               ModelAndView mv,
@@ -57,7 +57,7 @@ public class UserController {
 
             response.addCookie(cookie);
 
-            mv.setViewName("forward:/index.jsp");
+            mv.setViewName("forward:/index/page");
         }
 
         return mv;

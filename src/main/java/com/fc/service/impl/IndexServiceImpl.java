@@ -16,11 +16,16 @@ public class IndexServiceImpl implements IndexService {
     private TbNoteMapper noteMapper;
 
     @Override
-    public PageInfo<TbNote> page(Integer userId, Integer id, String title, String date, Integer pageNum, Integer pageSize) {
+    public PageInfo<TbNote> page(Integer userId, Integer typeId, String title, String date, Integer pageNum, Integer pageSize) {
+        // 准备模糊查询的条件
+        if (title != null && !title.equals("")) {
+            title = "%" + title + "%";
+        }
+
         PageHelper.startPage(pageNum, pageSize);
 
         //通过userId查找
-        List<TbNote> notes = noteMapper.findByIdPage(userId, id, title, date);
+        List<TbNote> notes = noteMapper.findByIdPage(userId, typeId, title, date);
 
         return new PageInfo<>(notes);
     }

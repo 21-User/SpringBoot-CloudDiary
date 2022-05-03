@@ -20,7 +20,7 @@ public class IndexController {
     @Autowired
     private IndexService indexService;
 
-    @RequestMapping(value = "page", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping("page")
     public ModelAndView page(ModelAndView mv,
                              HttpSession session,
                              Integer id,
@@ -42,11 +42,13 @@ public class IndexController {
         //设置请求域对象page的值为pageInfo
         mv.addObject("page", pageInfo);
 
+        mv.addObject("menu_page", "index");
+
         //设置请求域对象changePage的值为note目录下的list.jsp
         mv.addObject("changePage", "/note/list.jsp");
 
         //转发至index.jsp页面
-        mv.setViewName("forward:/index/page");
+        mv.setViewName("forward:/index/jsp");
 
         return mv;
     }

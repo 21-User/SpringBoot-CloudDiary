@@ -97,7 +97,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.fc.entity.TbNoteType">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.fc.entity.TbNoteType">
     insert into tb_note_type (id, type_name, user_id
       )
     values (#{id,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
@@ -178,4 +178,9 @@
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="findAllByUserId" resultType="com.fc.entity.TbNoteType">
+    select *
+    from tb_note_type
+    where user_id = #{userId}
+  </select>
 </mapper>
