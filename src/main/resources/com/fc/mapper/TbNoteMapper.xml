@@ -284,20 +284,49 @@
       lat = #{lat,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
+<!--根据用户id查询所有的日记-->
   <select id="findByIdPage" resultType="com.fc.entity.TbNote">
     select tn.*
-    from tb_note_type tnt
-    join tb_note tn on tnt.id = tn.type_id
+    from tb_note tn
+    inner join tb_note_type tnt
+    on tn.type_id = tnt.id
     where tnt.user_id = #{userId}
-    <if test="title != null">
-      and tn.title = #{title}
+    <if test="title != null and title != ''">
+      and tn.title like #{title}
     </if>
-    <if test="date != null">
+    <if test="typeId != null and typeId != ''">
+      and tnt.id = #{typeId}
+    </if>
+    <if test="date != null and date != ''">
       and date_format(tn.pub_time, '%Y年%m月') = #{date}
     </if>
-    <if test="id != null">
-      and tnt.id = #{id}
-    </if>
     order by tn.pub_time desc
+  </select>
+<!--根据类型的id获取日记分类-->
+  <select id="findNoteCountByDate" resultType="com.fc.vo.NoteVo">
+    select count(*) as noteCount,date_format(pub_time, '%Y年%m月') as groupName
+    from tb_note tn
+    inner join tb_note_type tnt
+        on tn.type_id = tnt.id
+    where tnt.user_id = #{userId}
+    group by date_format(pub_time, '%Y年%m月')
+    order by date_format(pub_time, '%Y年%m月') desc
+  </select>
+<!--根据用户id获取类型的分类-->
+  <select id="findByType" resultType="com.fc.vo.NoteVo">
+    select count(*) as noteCount, tnt.type_name as groupName,tnt.id as typeId
+    from tb_note tn
+    inner join tb_note_type tnt on
+        tn.type_id = tnt.id
+    where tnt.user_id = #{typeId}
+    group by tnt.id
+    order by count(tn.id) desc
+  </select>
+  <select id="findById" resultType="com.fc.vo.NoteVo">
+    select *
+    from tb_note tn
+    inner join tb_note_type tnt
+        on tn.type_id = tnt.id
+    where tn.id = #{id}
   </select>
 </mapper>

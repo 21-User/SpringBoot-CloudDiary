@@ -30,6 +30,5 @@ public interface TbNoteTypeMapper {
 
     int updateByPrimaryKey(TbNoteType record);
 
-    List<TbNoteType> findAllByUserId(Integer id);
-
+    List<TbNoteType> findByUserId(@Param("id") Integer id);
 }

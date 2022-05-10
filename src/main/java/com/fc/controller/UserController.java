@@ -3,6 +3,7 @@ package com.fc.controller;
 import com.fc.entity.TbUser;
 import com.fc.service.UserService;
 import com.fc.vo.ResultInfoVo;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("user")
+@Api(tags = "用户模块", description = "用户的所有操作")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -87,14 +89,11 @@ public class UserController {
     @RequestMapping("userCenter")
     public ModelAndView userCenter(ModelAndView mv,
                                    HttpSession session) {
-        //获取域对象
-        TbUser user = (TbUser)session.getAttribute("user");
-
         //设置请求域对象menu_page的值为user
-        mv.addObject("menu_page", user);
+        session.setAttribute("menu_page", "user");
 
         //设置请求域对象changePage的值为user目录下的info.jsp
-        mv.addObject("changePage", "/user/info.jsp");
+        session.setAttribute("changePage", "/user/info.jsp");
 
         //转发至index.jsp页面
         mv.setViewName("forward:/index.jsp");
@@ -104,14 +103,10 @@ public class UserController {
 
     @RequestMapping("update")
     public ModelAndView update(@RequestBody MultipartFile img,
-                               String nick,
-                               String mood,
+                               TbUser user,
                                HttpSession session,
                                ModelAndView mv) {
-
-        TbUser user = (TbUser)session.getAttribute("user");
-
-        ResultInfoVo resultInfoVo = userService.update(img, nick, mood, user);
+        ResultInfoVo resultInfoVo = userService.update(img, user);
 
         if (resultInfoVo.getSuccess()) {
             session.setAttribute("user", resultInfoVo.getData());
@@ -124,6 +119,11 @@ public class UserController {
         return mv;
     }
 
+    @GetMapping("checkNick")
+    @ResponseBody
+    public ResultInfoVo checkNick(String nick) {
 
+        return userService.checkNick(nick);
+    }
 
 }

@@ -11,6 +11,10 @@ spring:
     username: root
     password: 15239440831
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 # MyBatis配置
 mybatis:
   # mybatis配置文件的路径
@@ -30,3 +34,6 @@ mybatis:
     aggressive-lazy-loading: false
     # 驼峰命名
     map-underscore-to-camel-case: true
+server:
+  port: 8080
+

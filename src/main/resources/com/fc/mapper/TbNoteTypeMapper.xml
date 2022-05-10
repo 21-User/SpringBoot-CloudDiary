@@ -103,7 +103,7 @@
     values (#{id,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.fc.entity.TbNoteType">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.fc.entity.TbNoteType">
     insert into tb_note_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -178,9 +178,9 @@
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="findAllByUserId" resultType="com.fc.entity.TbNoteType">
+  <select id="findByUserId" resultType="com.fc.entity.TbNoteType">
     select *
     from tb_note_type
-    where user_id = #{userId}
+    where user_id = #{id}
   </select>
 </mapper>

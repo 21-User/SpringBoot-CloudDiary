@@ -1,5 +1,7 @@
 package com.fc.entity;
 
+import lombok.Data;
+
 public class TbUser {
     private Integer id;
 

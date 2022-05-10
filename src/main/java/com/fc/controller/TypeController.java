@@ -4,6 +4,7 @@ import com.fc.entity.TbNoteType;
 import com.fc.entity.TbUser;
 import com.fc.service.TbNoteTypeService;
 import com.fc.vo.ResultInfoVo;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,44 +15,51 @@ import java.util.List;
 
 @RestController
 @RequestMapping("type")
+@Api(tags = "类别管理模块", description = "类别的所有操作")
 public class TypeController {
     @Autowired
     private TbNoteTypeService noteTypeService;
 
     @RequestMapping("list")
     public ModelAndView list(ModelAndView mv,
-                             HttpSession session,
-                             Integer id) {
-        List<TbNoteType> tbNoteTypes = noteTypeService.findAllById(session, id);
+                             HttpSession session) {
+        TbUser user = (TbUser)session.getAttribute("user");
 
-        if (tbNoteTypes.size() > 0) {
-            mv.addObject("list", tbNoteTypes);
-        }
+        //根据用户的id获取所有日记类型
+        List<TbNoteType> tbNoteTypes = noteTypeService.findNoteType(user.getId());
 
-        mv.addObject("menu_page", "type");
-
-        mv.addObject("changePage", "/type/list.jsp");
+        session.setAttribute("list", tbNoteTypes);
+        session.setAttribute("menu_page", "type");
+        session.setAttribute("changePage", "/type/list.jsp");
 
         mv.setViewName("forward:/index.jsp");
 
         return mv;
     }
 
-    @RequestMapping(value = "addOrUpdate",method = {RequestMethod.GET,RequestMethod.POST})
+    @PostMapping("addOrUpdate")
     @ResponseBody
-    public ResultInfoVo addOrUpdate( TbNoteType tbNoteType, HttpSession session) {
+    public ResultInfoVo addOrUpdate( TbNoteType noteType, HttpSession session) {
+        ResultInfoVo vo;
+
         TbUser user = (TbUser)session.getAttribute("user");
 
-        tbNoteType.setUserId(user.getId());
+        noteType.setUserId(user.getId());
 
-        return noteTypeService.addOrUpdate(tbNoteType);
+        if (noteType.getId() == null) {
+            vo = noteTypeService.add(noteType);
+        } else {
+            vo= noteTypeService.update(noteType);
+        }
+
+        return vo;
     }
 
-//    @RequestMapping("delete")
-//    @ResponseBody
-//    public ResultInfoVo delete() {
-//
-//
-//    }
+    @GetMapping("delete")
+    @ResponseBody
+    public ResultInfoVo delete(@RequestParam Integer id) {
+
+        return noteTypeService.delete(id);
+    }
 
 }

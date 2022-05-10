@@ -30,7 +30,7 @@
  --%>
 <script type="text/javascript" src="/statics/echarts/echarts.min.js"></script>
 <%-- 引用百度地图API文件，需要申请百度地图对应ak密钥--%>
-<script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=yrxymYTyuefnxNtXbZcMU8phABXtu6TG"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&&type=webgl&ak=QCEYaV9kgCx5xMfBiVMl7aoEQ3Vr6d5M"></script>
 <script type="text/javascript">
 
     /**

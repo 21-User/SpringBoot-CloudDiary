@@ -3,6 +3,8 @@ package com.fc.dao;
 import com.fc.entity.TbNote;
 import com.fc.entity.TbNoteExample;
 import java.util.List;
+
+import com.fc.vo.NoteVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -36,5 +38,11 @@ public interface TbNoteMapper {
 
     int updateByPrimaryKey(TbNote record);
 
-    List<TbNote> findByIdPage(@Param("userId") Integer userId, @Param("id") Integer id, @Param("title") String title, @Param("date") String date);
+    List<TbNote> findByIdPage(@Param("userId") Integer userId, @Param("typeId") Integer id, @Param("title") String title, @Param("date") String date);
+
+    List<TbNote> findNoteCountByDate(@Param("userId") Integer userId);
+
+    List<TbNote> findByType(@Param("typeId") Integer typeId);
+
+    NoteVo findById(@Param("id") Integer id);
 }

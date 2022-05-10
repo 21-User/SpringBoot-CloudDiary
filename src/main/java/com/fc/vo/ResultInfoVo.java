@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResultInfoVo {
-    private Integer code;
+    public Integer code;
     private String message;
     private Boolean success;
     private Object data;
